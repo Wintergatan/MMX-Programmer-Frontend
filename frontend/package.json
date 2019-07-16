@@ -12,6 +12,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build",
     "firefox": "/Applications/Firefox\\ Developer\\ Edition.app/Contents/MacOS/firefox -start-debugger-server -no-remote &"
   },
   "eslintConfig": {
@@ -28,5 +30,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^2.0.1"
   }
 }
