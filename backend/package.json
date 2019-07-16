@@ -11,11 +11,15 @@
     "serve": "yarn watch & yarn firebase serve --only functions",
     "predeploy": "yarn build",
     "deploy": "yarn firebase deploy --only functions",
-    "debug": "yarn watch & nodemon --inspect node_modules/@google-cloud/functions-framework --target upload",
-    "precommit": "lint-staged"
+    "debug": "yarn watch & nodemon --inspect node_modules/@google-cloud/functions-framework --target upload"
   },
   "engines": {
     "node": "10"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "lint-staged": {
     "*.{js,json}": [
