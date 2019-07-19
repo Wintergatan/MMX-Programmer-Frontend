@@ -1,6 +1,7 @@
 {
   "name": "mmx-programmer-frontend",
   "version": "0.1.0",
+  "license": "MIT",
   "private": false,
   "dependencies": {
     "react": "^16.8.6",
@@ -12,9 +13,21 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "lint": "eslint src",
     "predeploy": "yarn build",
     "deploy": "gh-pages -d build",
     "firefox": "/Applications/Firefox\\ Developer\\ Edition.app/Contents/MacOS/firefox -start-debugger-server -no-remote &"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js}": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -32,6 +45,8 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^2.0.1"
+    "gh-pages": "^2.0.1",
+    "husky": "^3.0.1",
+    "lint-staged": "^9.2.0"
   }
 }
