@@ -4,6 +4,8 @@
   "main": "dist/firebase.js",
   "license": "MIT",
   "scripts": {
+    "pretest": "yarn build",
+    "test": "mocha",
     "lint": "eslint src",
     "setup": "yarn firebase use --add",
     "build": "babel 'src' --out-dir 'dist' --source-maps",
@@ -18,13 +20,14 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "yarn test ; lint-staged",
+      "pre-push": "yarn test"
     }
   },
   "lint-staged": {
     "*.{js,json}": [
       "prettier --write",
-      "eslint --fix",
+      "eslint --fix src",
       "git add"
     ]
   },
@@ -35,6 +38,7 @@
     "@babel/preset-env": "^7.5.4",
     "@babel/preset-flow": "^7.0.0",
     "@google-cloud/functions-framework": "^1.1.1",
+    "chai": "^4.2.0",
     "eslint": "5.3.0",
     "eslint-config-airbnb": "17.1.1",
     "eslint-config-prettier": "^6.0.0",
@@ -46,10 +50,13 @@
     "firebase-tools": "^7.1.0",
     "husky": "^3.0.0",
     "lint-staged": "^9.2.0",
+    "mocha": "^6.2.0",
     "nodemon": "^1.19.1",
     "prettier": "^1.18.2"
   },
   "dependencies": {
+    "@tonejs/midi": "^2.0.6",
+    "busboy": "^0.3.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "firebase-admin": "^8.2.0",
