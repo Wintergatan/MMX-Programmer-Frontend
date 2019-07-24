@@ -8,8 +8,10 @@ cache:
     - frontend/node_modules
 script:
   - cd backend
+  - yarn
   - yarn test
   - cd ../frontend
+  - yarn
   - yarn test
   - yarn build
 deploy:
