@@ -1,9 +1,7 @@
-/* eslint-disable func-names */
-/* eslint-disable no-console */
 import cors from 'cors';
 import express from 'express';
 import Busboy from 'busboy';
-import Midi from '@tonejs/midi';
+import parseMidi from './parseMidi';
 
 const upload = express();
 upload.use(
@@ -20,19 +18,19 @@ upload.use((request, response, next) => {
     fields[field] = val;
   });
 
-  busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+  busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
     console.log(
       `File [${fieldname}]: filename: ${filename}, encoding: ${encoding}, mimetype: ${mimetype}`
     );
-    file.on('data', function(data) {
+    file.on('data', data => {
       console.log(`File [${fieldname}] got ${data.length} bytes`);
       request.file = data;
     });
-    file.on('end', function() {
+    file.on('end', () => {
       console.log(`File [${fieldname}] Finished`);
     });
   });
-  busboy.on('finish', function() {
+  busboy.on('finish', () => {
     next();
   });
   busboy.end(request.rawBody);
@@ -40,8 +38,8 @@ upload.use((request, response, next) => {
 
 upload.post('*', (request, response) => {
   console.log('hello');
-  const midi = new Midi(request.file);
-  response.send(JSON.stringify(midi));
+  const midi = parseMidi(request.file);
+  response.send(JSON.stringify(midi, undefined, 2));
 });
 
 module.exports = {
