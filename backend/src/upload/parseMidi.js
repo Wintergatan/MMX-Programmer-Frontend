@@ -118,17 +118,64 @@ export default function parseMidi(midiFile) {
   const midi = new Midi(midiFile);
 
   const result = {
+    drums: {
+      kick: [[], []],
+      snare: [[], []],
+      hihat: [[], []],
+      cymbal: [[], []]
+    },
     bass: {
-      E: [],
-      A: [],
-      D: [],
-      G: []
+      E: [[], []],
+      A: [[], []],
+      D: [[], []],
+      G: [[], []]
+    },
+    vibraphone: {
+      bars: [[], []]
+    }
+  };
+
+  const previousPushedNotes = {
+    drums: {
+      kick: 0,
+      snare: 0,
+      hihat: 0,
+      cymbal: 0
+    },
+    bass: {
+      E: 0,
+      A: 0,
+      D: 0,
+      G: 0
+    },
+    vibraphone: {
+      bars: 0
     }
   };
 
   function pushNote(keys, instrument, note) {
     const subInstrument = instruments[instrument][note.midi];
-    result[instrument][subInstrument].push({
+    const manual1Treshold = 0.3858267716535433;
+    const alternatingTreshold = 0.7795275590551181;
+
+    let channel;
+    if (note.velocity > 0 && note.velocity < manual1Treshold) {
+      // manual 1
+      channel = 0;
+    } else if (note.velocity < alternatingTreshold) {
+      // manual 2
+      channel = 1;
+    } else {
+      const previousChannel = previousPushedNotes[instrument][subInstrument];
+      if (previousChannel === 0) {
+        channel = 1;
+      } else {
+        channel = 0;
+      }
+      previousPushedNotes[instrument][subInstrument] = channel;
+    }
+
+    result[instrument][subInstrument][channel].push({
       midi: note.midi,
       name: note.name,
       time: note.time
@@ -152,7 +199,6 @@ export default function parseMidi(midiFile) {
     } else {
       // not a note we can use, note assigned
     }
-    console.log(note);
   });
   return result;
 }

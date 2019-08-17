@@ -4,8 +4,7 @@
   "main": "dist/firebase.js",
   "license": "MIT",
   "scripts": {
-    "pretest": "yarn build",
-    "test": "jest",
+    "test": "jest --verbose src",
     "lint": "eslint src",
     "setup": "yarn firebase use --add",
     "build": "babel 'src' --out-dir 'dist' --source-maps",

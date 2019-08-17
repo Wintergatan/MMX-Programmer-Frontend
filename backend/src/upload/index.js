@@ -39,7 +39,7 @@ upload.use((request, response, next) => {
 upload.post('*', (request, response) => {
   console.log('hello');
   const midi = parseMidi(request.file);
-  response.send(JSON.stringify(midi, undefined, 2));
+  response.json(midi);
 });
 
 module.exports = {
