@@ -1,12 +1,70 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { config } from './config';
+import ProgrammingWheel from './ProgrammingWheel';
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedFile: null,
-      result: {}
+      result: {
+        drums: {
+          kick: [[], []],
+          snare: [[], []],
+          hihat: [[], []],
+          cymbal: [[], []]
+        },
+        bass: {
+          E: [[], []],
+          A: [[], []],
+          D: [
+            [
+              {
+                midi: 68,
+                name: 'G#4',
+                time: 0
+              },
+              {
+                midi: 68,
+                name: 'G#4',
+                time: 0.5
+              },
+              {
+                midi: 68,
+                name: 'G#4',
+                time: 2.5
+              }
+            ],
+            [
+              {
+                midi: 68,
+                name: 'G#4',
+                time: 1
+              },
+              {
+                midi: 68,
+                name: 'G#4',
+                time: 1.5
+              },
+              {
+                midi: 68,
+                name: 'G#4',
+                time: 2
+              },
+              {
+                midi: 68,
+                name: 'G#4',
+                time: 3
+              }
+            ]
+          ],
+          G: [[], []]
+        },
+        vibraphone: {
+          bars: [[], []]
+        }
+      }
     };
   }
   onChangeHandler = event => {
@@ -20,10 +78,7 @@ export default class App extends Component {
     const data = new FormData();
     data.append('file', this.state.selectedFile);
     axios
-      .post(
-        'https://us-central1-mmx-programmer.cloudfunctions.net/upload',
-        data
-      )
+      .post(config.endpoint.upload, data)
       .then(res => {
         // then print response status
         console.log(res.statusText);
@@ -44,7 +99,8 @@ export default class App extends Component {
           </button>
         </form>
         <a href={process.env.PUBLIC_URL + '/example.mid'}>Example midi file</a>
-        <pre>{JSON.stringify(this.state.result, null, 2)}</pre>
+        {/* <pre>{JSON.stringify(this.state.result, null, 2)}</pre> */}
+        <ProgrammingWheel data={this.state.result} />
       </div>
     );
   }

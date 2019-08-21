@@ -12,7 +12,7 @@
     "serve": "yarn watch & yarn firebase serve --only functions",
     "predeploy": "yarn build",
     "deploy": "yarn firebase deploy --only functions",
-    "debug": "yarn watch & nodemon --inspect node_modules/@google-cloud/functions-framework --target upload"
+    "debug": "yarn watch & nodemon --inspect=7070 node_modules/@google-cloud/functions-framework --target upload"
   },
   "engines": {
     "node": "10"
@@ -58,6 +58,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "firebase-admin": "^8.2.0",
-    "firebase-functions": "^3.1.0"
+    "firebase-functions": "^3.1.0",
+    "lodash.clonedeep": "^4.5.0"
   }
 }

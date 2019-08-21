@@ -1,4 +1,5 @@
 import { Midi } from '@tonejs/midi';
+import generateProgrammingWheel from './generateProgrammingWheel';
 
 const instruments = {
   drums: {
@@ -117,23 +118,7 @@ const instruments = {
 export default function parseMidi(midiFile) {
   const midi = new Midi(midiFile);
 
-  const result = {
-    drums: {
-      kick: [[], []],
-      snare: [[], []],
-      hihat: [[], []],
-      cymbal: [[], []]
-    },
-    bass: {
-      E: [[], []],
-      A: [[], []],
-      D: [[], []],
-      G: [[], []]
-    },
-    vibraphone: {
-      bars: [[], []]
-    }
-  };
+  const programmingWheel = generateProgrammingWheel(8);
 
   const previousPushedNotes = {
     drums: {
@@ -158,28 +143,31 @@ export default function parseMidi(midiFile) {
     const manual1Treshold = 0.3858267716535433;
     const alternatingTreshold = 0.7795275590551181;
 
-    let channel;
-    if (note.velocity > 0 && note.velocity < manual1Treshold) {
-      // manual 1
-      channel = 0;
-    } else if (note.velocity < alternatingTreshold) {
-      // manual 2
-      channel = 1;
-    } else {
-      const previousChannel = previousPushedNotes[instrument][subInstrument];
-      if (previousChannel === 0) {
-        channel = 1;
-      } else {
-        channel = 0;
-      }
-      previousPushedNotes[instrument][subInstrument] = channel;
-    }
+    // between 0 and 63
+    const time = note.time / 2;
 
-    result[instrument][subInstrument][channel].push({
-      midi: note.midi,
-      name: note.name,
-      time: note.time
-    });
+    // let channel;
+    // if (note.velocity > 0 && note.velocity < manual1Treshold) {
+    //   // manual 1
+    //   channel = 0;
+    // } else if (note.velocity < alternatingTreshold) {
+    //   // manual 2
+    //   channel = 1;
+    // } else {
+    //   const previousChannel = previousPushedNotes[instrument][subInstrument];
+    //   if (previousChannel === 0) {
+    //     channel = 1;
+    //   } else {
+    //     channel = 0;
+    //   }
+    //   previousPushedNotes[instrument][subInstrument] = channel;
+    // }
+
+    // result[instrument][subInstrument][channel].push({
+    //   midi: note.midi,
+    //   name: note.name,
+    //   time: note.time / 2
+    // });
   }
 
   midi.tracks[0].notes.forEach(note => {
@@ -200,5 +188,5 @@ export default function parseMidi(midiFile) {
       // not a note we can use, note assigned
     }
   });
-  return result;
+  return programmingWheel;
 }

@@ -37,7 +37,6 @@ upload.use((request, response, next) => {
 });
 
 upload.post('*', (request, response) => {
-  console.log('hello');
   const midi = parseMidi(request.file);
   response.json(midi);
 });
