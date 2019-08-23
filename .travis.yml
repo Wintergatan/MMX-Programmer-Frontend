@@ -18,5 +18,7 @@ deploy:
   skip-cleanup: true
   github-token: $GITHUB_TOKEN
   local-dir: build
+  repo: wintergatan/wintergatan.github.io
+  target-branch: master
   on:
     branch: master
