@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "license": "MIT",
   "private": false,
-  "homepage": "https://wintergatan.github.io/MMX-Programmer",
+  "homepage": "https://wintergatan.github.io/MMX-Programmer-Frontend",
   "dependencies": {
     "@material-ui/core": "^4.2.1",
     "axios": "^0.19.0",
