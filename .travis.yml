@@ -1,23 +1,22 @@
 language: node_js
+
 node_js:
   - 10
+
 cache:
   yarn: true
   directories:
-    - backend/node_modules
-    - frontend/node_modules
+    - node_modules
+
 script:
-  - cd backend
-  - yarn
-  - yarn test
-  - cd ../frontend
   - yarn
   - yarn test
   - yarn build
+
 deploy:
   provider: pages
   skip-cleanup: true
   github-token: $GITHUB_TOKEN
-  local-dir: frontend/build
+  local-dir: build
   on:
     branch: master
